@@ -56,3 +56,4 @@ firestore-debug.log
 # Package lock files (optional - keep if you want consistent installs)
 # package-lock.json
 # client/package-lock.json
+.vercel
