@@ -1,0 +1,22 @@
+HOW TO ADD YOUR PROFILE PHOTO
+==============================
+
+Your portfolio is looking for: manish-profile.jpg
+
+QUICK STEPS:
+1. Save your professional photo (the one in black shirt)
+2. Rename it to: manish-profile.jpg
+3. Copy it to: client\public\images\manish-profile.jpg
+4. Refresh your browser at localhost:3000
+
+COMMAND TO COPY (after saving photo to Downloads):
+copy "%USERPROFILE%\Downloads\manish-profile.jpg" "client\public\images\manish-profile.jpg"
+
+The photo will appear in the pink circle above your name!
+
+PERFORMANCE IMPROVEMENTS MADE:
+✅ Reduced heavy 3D animations
+✅ Simplified gradient backgrounds
+✅ Optimized hover effects
+✅ Removed complex transforms
+✅ Page should now load smoothly without lag!

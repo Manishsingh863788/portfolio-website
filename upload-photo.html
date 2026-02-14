@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Profile Photo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .upload-area {
+            border: 3px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .upload-area:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .preview img {
+            max-width: 300px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        button {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+        }
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📸 Upload Your Profile Photo</h1>
+        
+        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+            <h2>Click here to select your photo</h2>
+            <p>or drag and drop your image</p>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+
+        <div class="preview" id="preview"></div>
+
+        <button id="downloadBtn" style="display: none;">Download as manish-profile.jpg</button>
+
+        <div class="instructions">
+            <h3>📋 Instructions:</h3>
+            <ol>
+                <li>Click the upload area above</li>
+                <li>Select your professional photo</li>
+                <li>Preview will appear below</li>
+                <li>Click "Download" button</li>
+                <li>Save it as <strong>manish-profile.jpg</strong></li>
+                <li>Copy it to: <code>client/public/images/</code></li>
+            </ol>
+        </div>
+
+        <div class="success" id="success">
+            ✅ Photo ready! Now copy it to:<br>
+            <code>E:\OneDrive\Desktop\portfolio\client\public\images\manish-profile.jpg</code>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const success = document.getElementById('success');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Profile Preview">`;
+                    downloadBtn.style.display = 'block';
+                    success.style.display = 'block';
+                    
+                    // Store the image data
+                    downloadBtn.onclick = function() {
+                        const link = document.createElement('a');
+                        link.href = e.target.result;
+                        link.download = 'manish-profile.jpg';
+                        link.click();
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Drag and drop
+        const uploadArea = document.querySelector('.upload-area');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'white';
+            uploadArea.style.background = 'rgba(255, 255, 255, 0.2)';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+            uploadArea.style.background = 'transparent';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+            uploadArea.style.background = 'transparent';
+            
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                fileInput.files = e.dataTransfer.files;
+                fileInput.dispatchEvent(new Event('change'));
+            }
+        });
+    </script>
+</body>
+</html>
